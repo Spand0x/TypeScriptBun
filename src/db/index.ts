@@ -73,13 +73,13 @@ function getBookById(bookId: number): Book {
     return db.prepare(`SELECT * FROM books WHERE bookId = ?`).get(bookId) as Book;
 }
 
-function createBookIssue(memberId: number, bookId: number): void {
+function createBookIssue(memberId: number, bookId: number) {
     const issueDate: string = new Date().toISOString();
 
-    db.prepare(`
+    return db.prepare(`
         INSERT INTO book_issues (memberId, bookId, issueDate)
         VALUES (?, ?, ?)
-    `).get(memberId, bookId, issueDate);
+    `).get(memberId, bookId, issueDate) as BookIssue;
 }
 
 function getAllIssuedBooks(): BookIssue[] {

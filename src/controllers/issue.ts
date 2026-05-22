@@ -1,10 +1,11 @@
 import {app} from "../app.ts";
-import type {Book, IssueBook, IssueBookResponseBody} from "../types/dto.ts";
+import type {Book, IssueMemberIdBookIdRequestBody, IssueBookResponseBody} from "../types/dto.ts";
 import issueService from "../services/issue.service.ts";
 import { t } from "elysia";
 
 app
-    .post("/issue", ({body}: { body: IssueBook }): IssueBookResponseBody => {
+    .post("/issue", ({body}: { body: IssueMemberIdBookIdRequestBody }): IssueBookResponseBody => {
+
             return issueService.issueBook(body)
         },
         {

@@ -28,7 +28,7 @@ export interface BookRequestBody {
     language: Language;
 }
 
-export interface IssueBook {
+export interface IssueMemberIdBookIdRequestBody {
     memberId: number;
     bookId: number;
 }
