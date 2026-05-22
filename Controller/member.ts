@@ -36,4 +36,12 @@ app
                 memberId: t.Numeric()
             }),
         })
+    .get("/members/:memberId/issues", ({params}: { params: { memberId: number } }) => {
+
+        },
+        {
+            params: t.Object({
+                memberId: t.Numeric()
+            })
+        })
 

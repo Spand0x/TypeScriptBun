@@ -28,6 +28,25 @@ export interface BookRequestBody {
     language: Language;
 }
 
+export interface IssueBook {
+    memberId: number;
+    bookId: number;
+}
+
+export interface IssueBookResponseBody {
+    success: boolean;
+    message?: string;
+    error?: string;
+    issue?: Issue;
+}
+
+interface Issue {
+    issueId: number;
+    memberId: number;
+    bookId: number;
+    issueDate: string;
+}
+
 enum Language {
     English = "English",
     French = "French",
