@@ -28,6 +28,13 @@ export interface BookRequestBody {
     language: Language;
 }
 
+export interface BookIssue {
+    issueId: number;
+    memberId: number;
+    bookId: number;
+    issueDate: string;
+}
+
 enum Language {
     English = "English",
     French = "French",
