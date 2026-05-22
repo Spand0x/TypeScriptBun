@@ -1,11 +1,12 @@
 import {t} from "elysia";
-import type {MemberRegisterRequestBody, Member} from "../Dto/dto.ts";
+import type {MemberRegisterRequestBody, Member} from "../types/dto.ts";
 import {app} from "../app.ts";
-import memberService from "../Service/memberService.ts";
+import memberService from "../services/member.service.ts";
 
 app
     .post('/members',
         ({body}: { body: MemberRegisterRequestBody }): Member => {
+            console.log("Creating member..");
             return memberService.createMember(body);
         },
         {
@@ -38,4 +39,3 @@ app
                 memberId: t.Numeric()
             })
         })
-

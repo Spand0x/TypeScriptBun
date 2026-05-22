@@ -1,5 +1,5 @@
-import type { Member, MemberRegisterRequestBody } from "../Dto/dto.ts";
-import db from "../Database/db.ts";
+import type { Member, MemberRegisterRequestBody } from "../types/dto.ts";
+import db from "../db/index.ts";
 
 function createMember(memberRequestBody: MemberRegisterRequestBody): Member {
     return db.createMember(memberRequestBody.name, memberRequestBody.email, memberRequestBody.phone, memberRequestBody.address);

@@ -1,5 +1,5 @@
 import Database from "bun:sqlite";
-import {type Book, type BookIssue, Language, type Member} from "../Dto/dto";
+import {type Book, type BookIssue, type Member} from "../types/dto.ts";
 
 const db = new Database("library.db");
 
@@ -89,11 +89,11 @@ function getBookIssueById(issueId: number): BookIssue | undefined {
 }
 
 function getBookIssuesByMember(memberId: number): BookIssue[] {
-    return db.prepare(`SELECT * FROM book_issues WHERE memberId = ?`).getAll(memberId) as BookIssue[];
+    return db.prepare(`SELECT * FROM book_issues WHERE memberId = ?`).get(memberId) as BookIssue[];
 }
 
-function deleteBookIssue(issueId: number): BookIssue | undefined {
-    return db.prepare(`DELETE FROM book_issues WHERE issueId = ?`).run(issueId);
+function deleteBookIssue(issueId: number): BookIssue {
+    return db.prepare(`DELETE FROM book_issues WHERE issueId = ?`).get(issueId) as BookIssue;
 }
 
 export default {
@@ -108,4 +108,4 @@ export default {
     getBookById,
     createBookIssue,
     getAllIssuedBooks,
-}
+};

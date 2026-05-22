@@ -1,5 +1,5 @@
-import db from "../Database/db.ts";
-import type {Book, BookRequestBody} from "../Dto/dto.ts";
+import db from "../db/index.ts";
+import type {Book, BookRequestBody} from "../types/dto.ts";
 
 
 function createBook(book: BookRequestBody): Book {

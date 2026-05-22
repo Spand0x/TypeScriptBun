@@ -1,7 +1,7 @@
 import {app} from "../app.ts"
-import {type Book, type BookRequestBody, type IssueBook, type IssueBookResponseBody, Language} from "../Dto/dto.ts";
+import {type Book, type BookRequestBody, type IssueBook, type IssueBookResponseBody, Language} from "../types/dto.ts";
 import {t} from "elysia";
-import bookService from "../Service/bookService.ts";
+import bookService from "../services/book.service.ts";
 
 app
     .post("/books", ({body}: { body: BookRequestBody }): Book => {
