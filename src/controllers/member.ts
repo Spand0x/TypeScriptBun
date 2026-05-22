@@ -6,7 +6,6 @@ import memberService from "../services/member.service.ts";
 app
     .post('/members',
         ({body}: { body: MemberRegisterRequestBody }): Member => {
-            console.log("Creating member..");
             return memberService.createMember(body);
         },
         {
@@ -23,8 +22,12 @@ app
             return memberService.getAllMembers();
         })
     .get("/members/:memberId",
-        ({ params }: { params: { memberId: number } }) => {
-            return memberService.getMemberById(params.memberId);
+        ({ params }: { params: { memberId: number } }): Member => {
+            const result = memberService.getMemberById(params.memberId);
+            if (!result) {
+                throw new Error("No member with id " + params.memberId);
+            }
+            return result;
         },
         {
             params: t.Object({

@@ -20,29 +20,13 @@ app
     })
     .get("/books/:bookId",
         ({params}: { params: { bookId: number } }): Book => {
-            return bookService.getBook(params.bookId);
+            const result = bookService.getBook(params.bookId);
+            if (!result) {
+                throw new Error("Book not found");
+            }
+            return result;
         }, {
             params: t.Object({
                 bookId: t.Numeric()
             })
         })
-    .post("/issue", ({body}: { body: IssueBook }): IssueBookResponseBody => {
-            return null;
-        },
-        {
-            body: t.Object({
-                    bookId: t.Numeric(),
-                    memberId: t.Numeric()
-                }
-            )
-        })
-    .get("/issues", (): Book[] => {
-        return null;
-    })
-    .delete("/issues/:issueId", ({params}: { params: { issueId: number } }) => {
-
-    }, {
-        params: t.Object({
-            issueId: t.Numeric()
-        })
-    })

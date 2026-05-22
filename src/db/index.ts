@@ -34,7 +34,7 @@ function createBookIssuesTable() {
         issueId INTEGER PRIMARY KEY AUTOINCREMENT,
         memberId INTEGER NOT NULL,
         bookId INTEGER NOT NULL,
-        issueData DATE NOT NULL,
+        issueDate DATE NOT NULL,
         FOREIGN KEY (memberId) REFERENCES members(memberId),
         FOREIGN KEY (bookId) REFERENCES books(bookId)
         );
@@ -73,11 +73,13 @@ function getBookById(bookId: number): Book {
     return db.prepare(`SELECT * FROM books WHERE bookId = ?`).get(bookId) as Book;
 }
 
-function createBookIssue(memberId: number, bookId: number, issueDate: string): void {
+function createBookIssue(memberId: number, bookId: number): void {
+    const issueDate: string = new Date().toISOString();
+
     db.prepare(`
         INSERT INTO book_issues (memberId, bookId, issueDate)
         VALUES (?, ?, ?)
-    `).run(memberId, bookId, issueDate);
+    `).get(memberId, bookId, issueDate);
 }
 
 function getAllIssuedBooks(): BookIssue[] {
