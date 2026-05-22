@@ -21,6 +21,13 @@ export interface Book {
     language: Language
 }
 
+export interface BookRequestBody {
+    title: string;
+    subject: string;
+    author: string;
+    language: Language;
+}
+
 enum Language {
     English = "English",
     French = "French",
