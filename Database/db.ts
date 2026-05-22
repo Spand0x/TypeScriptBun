@@ -1,5 +1,5 @@
 import Database from "bun:sqlite";
-import type {Book, BookIssue, Member} from "../Dto/dto";
+import {type Book, type BookIssue, Language, type Member} from "../Dto/dto";
 
 const db = new Database("library.db");
 
@@ -10,10 +10,11 @@ function createMembersTable() {
             name TEXT NOT NULL,
             email TEXT NOT NULL,
             phone TEXT NOT NULL,
-            address TEXT NOT NULL,
-        )
+            address TEXT NOT NULL
+        );
     `)
 }
+
 
 function createBooksTable() {
     db.exec(`
@@ -21,9 +22,9 @@ function createBooksTable() {
         bookId INTEGER PRIMARY KEY AUTOINCREMENT,
         title TEXT NOT NULL,
         subject TEXT NOT NULL,
-        author TEXT NOT NULL
+        author TEXT NOT NULL,
         language TEXT NOT NULL
-        )
+        );
     `)
 }
 
@@ -33,10 +34,10 @@ function createBookIssuesTable() {
         issueId INTEGER PRIMARY KEY AUTOINCREMENT,
         memberId INTEGER NOT NULL,
         bookId INTEGER NOT NULL,
-        issueData DATE NOT NULL
+        issueData DATE NOT NULL,
         FOREIGN KEY (memberId) REFERENCES members(memberId),
         FOREIGN KEY (bookId) REFERENCES books(bookId)
-        )
+        );
     `)
 }
 
@@ -62,11 +63,11 @@ function getMemberById(memberId: number): Member | undefined {
     return db.prepare(`SELECT * FROM members WHERE memberId = ?`).get(memberId) as Member;
 }
 
-function createBook(title: string, subject: string, author: string, language: string) {
-    db.prepare(`
+function createBook(title: string, subject: string, author: string, language: string): Book {
+    return db.prepare(`
         INSERT INTO books (title, subject, author, language)
         VALUES (?, ?, ?, ?)
-    `).run(title, subject, author, language);
+    `).get(title, subject, author, language) as Book;
 }
 
 function getAllBooks(): Book[] {

@@ -37,14 +37,7 @@ export interface IssueBookResponseBody {
     success: boolean;
     message?: string;
     error?: string;
-    issue?: Issue;
-}
-
-interface Issue {
-    issueId: number;
-    memberId: number;
-    bookId: number;
-    issueDate: string;
+    issue?: BookIssue;
 }
 
 export interface BookIssue {
@@ -54,7 +47,7 @@ export interface BookIssue {
     issueDate: string;
 }
 
-enum Language {
+export enum Language {
     English = "English",
     French = "French",
     Arabic = "Arabic",
