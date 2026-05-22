@@ -42,24 +42,18 @@ function createBookIssuesTable() {
 }
 
 function createMember(name: string, email: string, phone: string, address: string): Member {
-    const member = db.prepare(`
+    return db.prepare(`
             INSERT INTO members (name, email, phone, address)
             VALUES (?, ?, ?, ?)
-        `).run(name, email, phone, address);
-    return {
-        memberId: member.lastInsertRowId,
-        name,
-        email,
-        phone,
-        address,
-    }
+            RETURNING *
+        `).get(name, email, phone, address) as Member;
 }
 
 function getAllMembers(): Member[] {
     return db.prepare(`SELECT * FROM members`).all() as Member[];
 }
 
-function getMemberById(memberId: number): Member | undefined {
+function getMemberById(memberId: number): Member {
     return db.prepare(`SELECT * FROM members WHERE memberId = ?`).get(memberId) as Member;
 }
 
@@ -67,14 +61,15 @@ function createBook(title: string, subject: string, author: string, language: st
     return db.prepare(`
         INSERT INTO books (title, subject, author, language)
         VALUES (?, ?, ?, ?)
+        RETURNING *
     `).get(title, subject, author, language) as Book;
 }
 
 function getAllBooks(): Book[] {
-    return db.prepare(`SELECT * FROM books`).getAll() as Book[];
+    return db.prepare(`SELECT * FROM books`).all() as Book[];
 }
 
-function getBookById(bookId: number): Book | undefined {
+function getBookById(bookId: number): Book {
     return db.prepare(`SELECT * FROM books WHERE bookId = ?`).get(bookId) as Book;
 }
 
@@ -86,7 +81,7 @@ function createBookIssue(memberId: number, bookId: number, issueDate: string): v
 }
 
 function getAllIssuedBooks(): BookIssue[] {
-    return db.prepare(`SELECT * FROM book_issues`).getAll() as BookIssue[];
+    return db.prepare(`SELECT * FROM book_issues`).all() as BookIssue[];
 }
 
 function getBookIssueById(issueId: number): BookIssue | undefined {

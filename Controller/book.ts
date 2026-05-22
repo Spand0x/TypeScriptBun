@@ -1,4 +1,4 @@
-import {app} from "../main.ts"
+import {app} from "../app.ts"
 import {type Book, type BookRequestBody, type IssueBook, type IssueBookResponseBody, Language} from "../Dto/dto.ts";
 import {t} from "elysia";
 import bookService from "../Service/bookService.ts";
@@ -16,11 +16,11 @@ app
             })
         })
     .get("/books", (): Book[] => {
-        return null;
+        return bookService.getAllBooks();
     })
     .get("/books/:bookId",
-        ({params}: { params: { bookId: number } }): Book[] => {
-            return null;
+        ({params}: { params: { bookId: number } }): Book => {
+            return bookService.getBook(params.bookId);
         }, {
             params: t.Object({
                 bookId: t.Numeric()
