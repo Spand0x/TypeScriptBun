@@ -47,6 +47,13 @@ interface Issue {
     issueDate: string;
 }
 
+export interface BookIssue {
+    issueId: number;
+    memberId: number;
+    bookId: number;
+    issueDate: string;
+}
+
 enum Language {
     English = "English",
     French = "French",
