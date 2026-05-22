@@ -25,11 +25,11 @@ function issueBook(issueBookRequest: IssueMemberIdBookIdRequestBody): IssueBookR
 function validate(issueBookRequest: IssueMemberIdBookIdRequestBody) {
     const member: Member = memberService.getMemberById(issueBookRequest.memberId);
     if (!member) {
-        throw new Error("Member not found")
+        throw status(400, { success: false, error: "Member not found" });
     }
     const book: Book = bookService.getBookById(issueBookRequest.bookId);
     if (!book) {
-        throw new Error("Book not found");
+        throw status(400, { success: false, error: "Book not found" });
     }
     let bookIssuesByBookId: BookIssue[] = db.getBookIssuesByBookId(book.bookId);
     if (bookIssuesByBookId.length > 0) {
@@ -42,7 +42,7 @@ function validate(issueBookRequest: IssueMemberIdBookIdRequestBody) {
     if (bookIssuesByMemberId.length >= 3) {
         throw status(400, {
             success: false,
-            message: "Member cannot issue more than 3 books"
+            message: "Member cannot issue more than 3 books, Promise?"
         })
     }
 }
