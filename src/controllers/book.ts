@@ -20,7 +20,7 @@ app
     })
     .get("/books/:bookId",
         ({params}: { params: { bookId: number } }): Book => {
-            const result = bookService.getBook(params.bookId);
+            const result = bookService.getBookById(params.bookId);
             if (!result) {
                 throw new Error("Book not found");
             }

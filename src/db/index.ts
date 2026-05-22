@@ -73,12 +73,13 @@ function getBookById(bookId: number): Book {
     return db.prepare(`SELECT * FROM books WHERE bookId = ?`).get(bookId) as Book;
 }
 
-function createBookIssue(memberId: number, bookId: number) {
+function createBookIssue(memberId: number, bookId: number): BookIssue {
     const issueDate: string = new Date().toISOString();
 
     return db.prepare(`
         INSERT INTO book_issues (memberId, bookId, issueDate)
         VALUES (?, ?, ?)
+        RETURNING *
     `).get(memberId, bookId, issueDate) as BookIssue;
 }
 
@@ -90,8 +91,12 @@ function getBookIssueById(issueId: number): BookIssue | undefined {
     return db.prepare(`SELECT * FROM book_issues WHERE issueId = ?`).get(issueId) as BookIssue;
 }
 
-function getBookIssuesByMember(memberId: number): BookIssue[] {
-    return db.prepare(`SELECT * FROM book_issues WHERE memberId = ?`).get(memberId) as BookIssue[];
+function getBookIssuesByMemberId(memberId: number): BookIssue[] {
+    return db.prepare(`SELECT * FROM book_issues WHERE memberId = ?`).all(memberId) as BookIssue[];
+}
+
+function getBookIssuesByBookId(bookId: number): BookIssue[] {
+    return db.prepare(`SELECT * FROM book_issues WHERE bookId = ?`).all(bookId) as BookIssue[];
 }
 
 function deleteBookIssue(issueId: number): BookIssue {
@@ -109,5 +114,7 @@ export default {
     getAllBooks,
     getBookById,
     createBookIssue,
+    getBookIssuesByMemberId,
+    getBookIssuesByBookId,
     getAllIssuedBooks,
 };

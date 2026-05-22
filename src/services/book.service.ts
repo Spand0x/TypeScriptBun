@@ -6,7 +6,7 @@ function createBook(book: BookRequestBody): Book {
     return db.createBook(book.title, book.subject, book.author, book.language);
 }
 
-function getBook(bookId: number): Book {
+function getBookById(bookId: number): Book {
     return db.getBookById(bookId);
 }
 
@@ -16,6 +16,6 @@ function getAllBooks(): Book[] {
 
 export default {
     createBook,
-    getBook,
+    getBookById,
     getAllBooks,
 }
