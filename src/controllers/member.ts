@@ -1,5 +1,5 @@
 import {t} from "elysia";
-import type {MemberRegisterRequestBody, Member} from "../types/dto.ts";
+import type {MemberRegisterRequestBody, Member, BookIssue} from "../types/dto.ts";
 import {app} from "../app.ts";
 import memberService from "../services/member.service.ts";
 
@@ -34,8 +34,8 @@ app
                 memberId: t.Numeric()
             }),
         })
-    .get("/members/:memberId/issues", ({params}: { params: { memberId: number } }) => {
-
+    .get("/members/:memberId/issues", ({params}: { params: { memberId: number } }): BookIssue[]  => {
+            return memberService.getIssuesByMember(params.memberId);
         },
         {
             params: t.Object({

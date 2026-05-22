@@ -33,7 +33,7 @@ function createBookIssuesTable() {
         CREATE TABLE IF NOT EXISTS book_issues (
         issueId INTEGER PRIMARY KEY AUTOINCREMENT,
         memberId INTEGER NOT NULL,
-        bookId INTEGER NOT NULL,
+        bookId INTEGER UNIQUE NOT NULL,
         issueDate DATE NOT NULL,
         FOREIGN KEY (memberId) REFERENCES members(memberId),
         FOREIGN KEY (bookId) REFERENCES books(bookId)
@@ -99,8 +99,8 @@ function getBookIssuesByBookId(bookId: number): BookIssue[] {
     return db.prepare(`SELECT * FROM book_issues WHERE bookId = ?`).all(bookId) as BookIssue[];
 }
 
-function deleteBookIssue(issueId: number): BookIssue {
-    return db.prepare(`DELETE FROM book_issues WHERE issueId = ?`).get(issueId) as BookIssue;
+function deleteBookIssue(issueId: number) {
+    return db.prepare(`DELETE FROM book_issues WHERE issueId = ?`).run(issueId);
 }
 
 export default {
@@ -117,4 +117,5 @@ export default {
     getBookIssuesByMemberId,
     getBookIssuesByBookId,
     getAllIssuedBooks,
+    deleteBookIssue
 };

@@ -18,9 +18,20 @@ function issueBook(issueBookRequest: IssueMemberIdBookIdRequestBody): IssueBookR
         }
     }
     return response;
-
-
 }
+
+function getAllIssuedBooks(): BookIssue[] {
+    return db.getAllIssuedBooks();
+}
+
+function deleteIssuedBook(issuedId: number) {
+    let issueBook = db.deleteBookIssue(issuedId);
+    if(issueBook.changes) {
+        return "Something went wrong during the deletion process.";
+    }
+    return "Successfully deleted.";
+}
+
 
 function validate(issueBookRequest: IssueMemberIdBookIdRequestBody) {
     const member: Member = memberService.getMemberById(issueBookRequest.memberId);
@@ -48,5 +59,7 @@ function validate(issueBookRequest: IssueMemberIdBookIdRequestBody) {
 }
 
 export default {
-    issueBook
+    issueBook,
+    getAllIssuedBooks,
+    deleteIssuedBook
 }
