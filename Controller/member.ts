@@ -1,14 +1,12 @@
 import {t} from "elysia";
 import type {MemberRegisterRequestBody, Member} from "../Dto/dto.ts";
 import {app} from "../main.ts";
+import { createMember, getAllMembers, getMemberById } from "../Service/memberService.ts";
 
 app
     .post('/members',
         ({body}: { body: MemberRegisterRequestBody }): Member => {
-            console.log(body);
-            //call db
-            // return body;
-            return body
+            return createMember(body);
         },
         {
             body: t.Object({
@@ -21,15 +19,11 @@ app
     )
     .get("/members",
         (): Member[] => {
-            //return all db
-            return null;
+            return getAllMembers();
         })
     .get("/members/:memberId",
         ({ params }: { params: { memberId: number } }) => {
-            //get db
-            // if (!member) {
-                throw new Error("Member not found");
-            // }
+            return getMemberById(params.memberId);
         },
         {
             params: t.Object({
